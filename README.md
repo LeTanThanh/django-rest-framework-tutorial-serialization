@@ -2,6 +2,13 @@
 
 - Reference: https://www.django-rest-framework.org/tutorial/1-serialization/
 
+## Setup new env
+
+```bash
+python3 -m venv env
+source env/bin/activate
+```
+
 ## Install packages
 
 ```bash
