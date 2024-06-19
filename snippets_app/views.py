@@ -31,9 +31,9 @@ def snippet(request, pk):
     if request.method == "GET":
         return snippet_detail(snippet=snippet)
     elif request.method == "PUT":
-        pass
+        return update_snippet(snippet=snippet, request=request)
     elif request.method == "DELETE":
-        pass
+        return delete_snippet(snippet=snippet)
 
 
 def list_snippets(request):
@@ -56,3 +56,20 @@ def create_snippet(request):
 def snippet_detail(snippet):
     serializer = SnippetSerializer(instance=snippet)
     return JsonResponse(data=serializer.data)
+
+
+def update_snippet(snippet, request):
+    data = JSONParser().parse(request)
+    serializer = SnippetSerializer(instance=snippet, data=data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data, status=200)
+
+    return JsonResponse(data=serializer.errors, status=422)
+
+
+def delete_snippet(snippet):
+    snippet.delete()
+
+    return JsonResponse(data=None, safe=False, status = 204)
