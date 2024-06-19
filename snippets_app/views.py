@@ -21,6 +21,21 @@ def snippets(request):
         return create_snippet(request=request)
 
 
+@csrf_exempt
+def snippet(request, pk):
+    try:
+        snippet = Snippet.objects.get(pk=pk)
+    except Snippet.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == "GET":
+        return snippet_detail(snippet=snippet)
+    elif request.method == "PUT":
+        pass
+    elif request.method == "DELETE":
+        pass
+
+
 def list_snippets(request):
     snippets = Snippet.objects.all()
     serializer = SnippetSerializer(instance=snippets, many=True)
@@ -36,3 +51,8 @@ def create_snippet(request):
         return JsonResponse(data=serializer.data, status=201)
 
     return JsonResponse(data=serializer.errors, status=422)
+
+
+def snippet_detail(snippet):
+    serializer = SnippetSerializer(instance=snippet)
+    return JsonResponse(data=serializer.data)
