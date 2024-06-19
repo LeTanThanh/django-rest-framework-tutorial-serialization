@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import list_snippets
+from .views import snippets
 
 urlpatterns = [
-    path('snippets/', list_snippets)
+    path('snippets/', snippets)
 ]
